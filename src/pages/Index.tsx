@@ -1,12 +1,159 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ProductCard from "@/components/ProductCard";
+import heroImage from "@/assets/hero-jewelry.jpg";
+import silverCollection from "@/assets/silver-collection.jpg";
+import goldCollection from "@/assets/gold-collection.jpg";
+import aboutAtelier from "@/assets/about-atelier.jpg";
+import { silverProducts, goldProducts } from "@/data/products";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Navbar />
+
+      {/* Hero */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={heroImage} alt="Nora Atelier luxury jewelry" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-foreground/30" />
+        </div>
+        <div className="relative z-10 text-center max-w-3xl px-6">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-body text-xs tracking-[0.4em] uppercase text-background/80 mb-6"
+          >
+            925 Sterling Silver &amp; 18K Gold Vermeil
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="font-display text-5xl md:text-7xl text-background leading-tight mb-8"
+          >
+            Timeless Elegance, Handcrafted for You
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Link to="/silver">
+              <Button variant="hero" size="lg">Silver Collection</Button>
+            </Link>
+            <Link to="/gold">
+              <Button variant="hero-outline" size="lg" className="border-background text-background hover:bg-background hover:text-foreground">Gold Collection</Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Collections */}
+      <section className="py-24 px-6">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">Our Collections</p>
+            <h2 className="font-display text-4xl md:text-5xl text-foreground">Two Worlds of Beauty</h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Link to="/silver">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative group overflow-hidden silver-shadow"
+              >
+                <img src={silverCollection} alt="Silver Collection" className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-foreground/20 group-hover:bg-foreground/30 transition-colors duration-500" />
+                <div className="absolute bottom-8 left-8">
+                  <p className="font-body text-xs tracking-[0.3em] uppercase text-background/70 mb-2">Moonlit Minimalist</p>
+                  <h3 className="font-display text-3xl text-background">Silver Collection</h3>
+                </div>
+              </motion.div>
+            </Link>
+            <Link to="/gold">
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative group overflow-hidden luxury-shadow"
+              >
+                <img src={goldCollection} alt="Gold Collection" className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-foreground/20 group-hover:bg-foreground/30 transition-colors duration-500" />
+                <div className="absolute bottom-8 left-8">
+                  <p className="font-body text-xs tracking-[0.3em] uppercase text-background/70 mb-2">Golden Hour</p>
+                  <h3 className="font-display text-3xl text-background">Gold Collection</h3>
+                </div>
+              </motion.div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="py-24 px-6 bg-muted">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">Curated Selection</p>
+            <h2 className="font-display text-4xl md:text-5xl text-foreground">Featured Pieces</h2>
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[silverProducts[0], goldProducts[0], silverProducts[1]].map((p) => (
+              <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} image={p.image} category={p.category} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About */}
+      <section className="py-24 px-6">
+        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <img src={aboutAtelier} alt="Nora Atelier boutique" className="w-full aspect-[4/3] object-cover luxury-shadow" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">Our Story</p>
+            <h2 className="font-display text-4xl text-foreground mb-6">Crafted with Intention</h2>
+            <p className="font-accent text-xl text-muted-foreground leading-relaxed mb-6">
+              At Nora Atelier, every piece begins as a sketch, inspired by the interplay of light and form. We work exclusively with 925 sterling silver and 18k gold vermeil to create jewelry that transcends trends.
+            </p>
+            <p className="font-accent text-xl text-muted-foreground leading-relaxed">
+              Our commitment to quality craftsmanship ensures each piece is not just an accessory, but a companion for life's most precious moments.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };
