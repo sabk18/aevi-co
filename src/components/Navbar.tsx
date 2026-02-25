@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ShoppingBag } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -14,7 +14,7 @@ const navLinks = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { items } = useCart();
+  const items = useCartStore((s) => s.items);
   const cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
@@ -24,16 +24,13 @@ const Navbar = () => {
           NORA ATELIER
         </Link>
 
-        {/* Desktop */}
         <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               className={`font-body text-sm tracking-[0.2em] uppercase transition-colors duration-300 ${
-                location.pathname === link.path
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                location.pathname === link.path ? "text-primary" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {link.label}
@@ -49,7 +46,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Mobile */}
         <div className="flex items-center gap-4 md:hidden">
           <Link to="/cart" className="relative">
             <ShoppingBag className="w-5 h-5 text-foreground" />
@@ -80,9 +76,7 @@ const Navbar = () => {
                   to={link.path}
                   onClick={() => setIsOpen(false)}
                   className={`font-body text-sm tracking-[0.2em] uppercase ${
-                    location.pathname === link.path
-                      ? "text-primary"
-                      : "text-muted-foreground"
+                    location.pathname === link.path ? "text-primary" : "text-muted-foreground"
                   }`}
                 >
                   {link.label}
