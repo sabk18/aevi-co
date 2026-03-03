@@ -182,3 +182,122 @@ export async function fetchProductByHandle(handle: string): Promise<ShopifyProdu
   const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
   return data?.data?.productByHandle || null;
 }
+
+// --- Customer / Auth API ---
+
+const CUSTOMER_CREATE_MUTATION = `
+  mutation customerCreate($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer { id email firstName lastName }
+      customerUserErrors { field message code }
+    }
+  }
+`;
+
+const CUSTOMER_ACCESS_TOKEN_CREATE = `
+  mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+    customerAccessTokenCreate(input: $input) {
+      customerAccessToken { accessToken expiresAt }
+      customerUserErrors { field message code }
+    }
+  }
+`;
+
+const CUSTOMER_QUERY = `
+  query customer($token: String!) {
+    customer(customerAccessToken: $token) {
+      id email firstName lastName
+      orders(first: 10) {
+        edges {
+          node {
+            id orderNumber name processedAt
+            totalPrice { amount currencyCode }
+            statusUrl
+            lineItems(first: 10) {
+              edges {
+                node {
+                  title quantity
+                  variant { image { url altText } price { amount currencyCode } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export interface ShopifyCustomer {
+  id: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  orders?: {
+    edges: Array<{
+      node: {
+        id: string;
+        orderNumber: number;
+        name: string;
+        processedAt: string;
+        totalPrice: { amount: string; currencyCode: string };
+        statusUrl: string;
+        lineItems: {
+          edges: Array<{
+            node: {
+              title: string;
+              quantity: number;
+              variant: {
+                image: { url: string; altText: string | null } | null;
+                price: { amount: string; currencyCode: string };
+              } | null;
+            };
+          }>;
+        };
+      };
+    }>;
+  };
+}
+
+export async function createCustomer(input: {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+  acceptsMarketing?: boolean;
+}): Promise<{ customer: ShopifyCustomer | null; errors: Array<{ field: string[]; message: string; code: string }> }> {
+  const data = await storefrontApiRequest(CUSTOMER_CREATE_MUTATION, { input });
+  const result = data?.data?.customerCreate;
+  return {
+    customer: result?.customer || null,
+    errors: result?.customerUserErrors || [],
+  };
+}
+
+export async function customerLogin(email: string, password: string): Promise<{ accessToken: string; expiresAt: string } | { errors: Array<{ message: string }> }> {
+  const data = await storefrontApiRequest(CUSTOMER_ACCESS_TOKEN_CREATE, {
+    input: { email, password },
+  });
+  const result = data?.data?.customerAccessTokenCreate;
+  if (result?.customerUserErrors?.length > 0) {
+    return { errors: result.customerUserErrors };
+  }
+  return result?.customerAccessToken;
+}
+
+export async function fetchCustomer(accessToken: string): Promise<ShopifyCustomer | null> {
+  const data = await storefrontApiRequest(CUSTOMER_QUERY, { token: accessToken });
+  return data?.data?.customer || null;
+}
+
+export async function newsletterSignup(email: string): Promise<{ success: boolean; message: string }> {
+  const result = await createCustomer({ email, password: crypto.randomUUID().slice(0, 20) + 'A1!', acceptsMarketing: true });
+  if (result.errors.length > 0) {
+    const alreadyExists = result.errors.some(e => e.code === 'TAKEN' || e.code === 'CUSTOMER_DISABLED');
+    if (alreadyExists) {
+      return { success: true, message: "You're already subscribed! Thank you." };
+    }
+    return { success: false, message: result.errors[0].message };
+  }
+  return { success: true, message: "Thank you for subscribing!" };
+}
