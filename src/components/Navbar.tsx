@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { Menu, X, ShoppingBag, User } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { useAuthStore } from "@/stores/authStore";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -16,6 +17,7 @@ const Navbar = () => {
   const location = useLocation();
   const items = useCartStore((s) => s.items);
   const cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const accessToken = useAuthStore((s) => s.accessToken);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -36,6 +38,9 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
+          <Link to={accessToken ? "/account" : "/login"} className="ml-2">
+            <User className="w-5 h-5 text-foreground" />
+          </Link>
           <Link to="/cart" className="relative ml-4">
             <ShoppingBag className="w-5 h-5 text-foreground" />
             {cartCount > 0 && (
@@ -47,6 +52,9 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4 md:hidden">
+          <Link to={accessToken ? "/account" : "/login"}>
+            <User className="w-5 h-5 text-foreground" />
+          </Link>
           <Link to="/cart" className="relative">
             <ShoppingBag className="w-5 h-5 text-foreground" />
             {cartCount > 0 && (
