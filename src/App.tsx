@@ -5,8 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
 import Index from "./pages/Index";
-import SilverCollection from "./pages/SilverCollection";
-import GoldCollection from "./pages/GoldCollection";
+import Shop from "./pages/Shop";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
@@ -23,14 +22,13 @@ const AppContent = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/silver" element={<SilverCollection />} />
-        <Route path="/gold" element={<GoldCollection />} />
+        <Route path="/shop" element={<Shop />} />
         <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/product/:handle" element={<ProductDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/account" element={<Account />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:handle" element={<ProductDetail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/account" element={<Account />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
