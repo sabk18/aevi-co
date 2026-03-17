@@ -37,6 +37,8 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
 
+      setAuth: (accessToken, customer) => set({ accessToken, customer }),
+
       logout: () => set({ accessToken: null, customer: null }),
 
       refreshCustomer: async () => {
