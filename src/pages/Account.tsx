@@ -1,138 +1,103 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { LogOut, Package, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useAuthStore } from "@/stores/authStore";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Loader2, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { fetchCustomer, ShopifyCustomer } from "@/lib/shopify";
+import { useAuthStore } from "@/stores/authStore";
 
 const Account = () => {
-  const { customer, accessToken, logout, refreshCustomer, isLoading } = useAuthStore();
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
+  const [customer, setCustomer] = useState<ShopifyCustomer | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!accessToken) {
-      navigate("/login");
-      return;
-    }
-    refreshCustomer();
-  }, [accessToken, navigate, refreshCustomer]);
+    if (!accessToken) { navigate("/login"); return; }
+    fetchCustomer(accessToken).then((c) => {
+      if (!c) { logout(); navigate("/login"); return; }
+      setCustomer(c);
+      setLoading(false);
+    });
+  }, [accessToken, navigate, logout]);
 
-  if (!customer) {
+  if (loading) {
     return (
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="flex-1 flex items-center justify-center pt-20">
-          <p className="font-accent text-lg text-muted-foreground">Loading...</p>
-        </main>
-        <Footer />
+        <div className="pt-32 flex justify-center"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
       </div>
     );
   }
 
-  const orders = customer.orders?.edges || [];
+  const orders = customer?.orders?.edges || [];
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="flex-1 pt-20">
-        <div className="container mx-auto px-6 py-16 max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-12">
-              <div>
-                <h1 className="font-display text-3xl md:text-4xl tracking-wide mb-2">My Account</h1>
-                <p className="font-accent text-lg text-muted-foreground flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  {customer.firstName ? `${customer.firstName} ${customer.lastName || ''}` : customer.email}
-                </p>
-              </div>
-              <Button
-                variant="outline"
-                onClick={() => { logout(); navigate("/"); }}
-                className="font-body text-xs tracking-[0.15em] uppercase"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign Out
-              </Button>
-            </div>
-
-            {/* Orders */}
+      <section className="pt-12 pb-24 px-6">
+        <div className="container mx-auto max-w-3xl">
+          <div className="flex items-center justify-between mb-10">
             <div>
-              <h2 className="font-display text-2xl tracking-wide mb-6 flex items-center gap-3">
-                <Package className="w-5 h-5 text-primary" />
-                Order History
-              </h2>
-
-              {orders.length === 0 ? (
-                <div className="text-center py-16 border border-border rounded-md bg-card">
-                  <p className="font-accent text-lg text-muted-foreground mb-2">No orders yet</p>
-                  <p className="font-body text-sm text-muted-foreground">Your order history will appear here.</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {orders.map(({ node: order }) => (
-                    <div key={order.id} className="border border-border rounded-md bg-card p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <p className="font-body text-xs tracking-[0.15em] uppercase text-muted-foreground">
-                            Order {order.name}
-                          </p>
-                          <p className="font-accent text-sm text-muted-foreground">
-                            {new Date(order.processedAt).toLocaleDateString('en-US', {
-                              year: 'numeric', month: 'long', day: 'numeric'
-                            })}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-display text-lg">
-                            {parseFloat(order.totalPrice.amount).toFixed(2)} {order.totalPrice.currencyCode}
-                          </p>
-                          {order.statusUrl && (
-                            <a
-                              href={order.statusUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-body text-xs text-primary hover:underline tracking-[0.1em] uppercase"
-                            >
-                              Track Order
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        {order.lineItems.edges.map(({ node: item }, idx) => (
-                          <div key={idx} className="flex items-center gap-4">
-                            {item.variant?.image && (
-                              <img
-                                src={item.variant.image.url}
-                                alt={item.variant.image.altText || item.title}
-                                className="w-12 h-12 object-cover rounded"
-                              />
-                            )}
-                            <div className="flex-1">
-                              <p className="font-accent text-base">{item.title}</p>
-                              <p className="font-body text-xs text-muted-foreground">
-                                Qty: {item.quantity}
-                                {item.variant?.price && ` · ${parseFloat(item.variant.price.amount).toFixed(2)} ${item.variant.price.currencyCode}`}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <h1 className="font-display text-3xl text-foreground">Hello, {customer?.firstName || "there"}</h1>
+              <p className="font-body text-sm text-muted-foreground mt-1">{customer?.email}</p>
             </div>
-          </motion.div>
+            <button onClick={() => { logout(); navigate("/"); }}
+              className="font-body text-xs tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground transition-colors">
+              Sign Out
+            </button>
+          </div>
+
+          <h2 className="font-display text-xl text-foreground mb-6">Order History</h2>
+          {orders.length === 0 ? (
+            <div className="text-center py-16 bg-card rounded-sm">
+              <p className="font-body text-sm text-muted-foreground mb-4">No orders yet.</p>
+              <Link to="/shop"
+                className="inline-block bg-foreground text-primary-foreground font-body text-xs tracking-[0.15em] uppercase px-6 py-2.5 hover:bg-foreground/90 transition-colors rounded-sm">
+                Start Shopping
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {orders.map(({ node: order }) => (
+                <div key={order.id} className="p-5 bg-card rounded-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <p className="font-body text-sm text-foreground font-medium">{order.name}</p>
+                      <p className="font-body text-xs text-muted-foreground">
+                        {new Date(order.processedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-body text-sm text-gold-accent">
+                        {order.totalPrice.currencyCode} {parseFloat(order.totalPrice.amount).toFixed(2)}
+                      </p>
+                      {order.statusUrl && (
+                        <a href={order.statusUrl} target="_blank" rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-body text-xs text-muted-foreground hover:text-foreground transition-colors">
+                          Track <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-2 overflow-x-auto">
+                    {order.lineItems.edges.map(({ node: item }, i) => (
+                      <div key={i} className="flex-shrink-0 w-12 h-12 bg-background rounded-sm overflow-hidden">
+                        {item.variant?.image ? (
+                          <img src={item.variant.image.url} alt={item.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-[8px]">—</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      </main>
+      </section>
       <Footer />
     </div>
   );

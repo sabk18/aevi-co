@@ -1,96 +1,80 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Mail, Lock, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useAuthStore } from "@/stores/authStore";
+import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { customerLogin, fetchCustomer } from "@/lib/shopify";
+import { useAuthStore } from "@/stores/authStore";
+import { toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const login = useAuthStore((s) => s.login);
-  const isLoading = useAuthStore((s) => s.isLoading);
+  const [loading, setLoading] = useState(false);
+  const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    const result = await login(email, password);
-    if (result.success) {
+    setLoading(true);
+    try {
+      const result = await customerLogin(email, password);
+      if ("errors" in result) {
+        toast.error((result.errors as any)[0]?.message || "Invalid credentials");
+        return;
+      }
+      const customer = await fetchCustomer(result.accessToken);
+      setAuth(result.accessToken, customer);
+      toast.success("Welcome back!");
       navigate("/account");
-    } else {
-      setError(result.error || "Invalid credentials");
+    } catch {
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="flex-1 flex items-center justify-center pt-20 px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full max-w-md"
-        >
-          <div className="text-center mb-10">
-            <h1 className="font-display text-3xl md:text-4xl tracking-wide mb-3">Welcome Back</h1>
-            <p className="font-accent text-lg text-muted-foreground">Sign in to your account</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md font-body">
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-2">
-              <label className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 font-accent text-base border-border bg-card"
-                  placeholder="your@email.com"
-                  required
-                />
-              </div>
+      <section className="pt-20 pb-24 px-6">
+        <div className="container mx-auto max-w-sm">
+          <h1 className="font-display text-3xl text-foreground text-center mb-8">Sign In</h1>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="font-body text-xs tracking-[0.1em] uppercase text-muted-foreground mb-1 block">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-transparent border eclat-border border-border px-3 py-2.5 font-body text-sm outline-none focus:border-foreground transition-colors rounded-sm"
+              />
             </div>
-
-            <div className="space-y-2">
-              <label className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 font-accent text-base border-border bg-card"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
+            <div>
+              <label className="font-body text-xs tracking-[0.1em] uppercase text-muted-foreground mb-1 block">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full bg-transparent border eclat-border border-border px-3 py-2.5 font-body text-sm outline-none focus:border-foreground transition-colors rounded-sm"
+              />
             </div>
-
-            <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign In"}
-              {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
-            </Button>
-
-            <p className="text-center font-accent text-base text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-primary hover:underline">Create one</Link>
-            </p>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-foreground text-primary-foreground font-body text-xs tracking-[0.15em] uppercase py-3 hover:bg-foreground/90 transition-colors rounded-sm disabled:opacity-50"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : "Sign In"}
+            </button>
           </form>
-        </motion.div>
-      </main>
+          <p className="text-center font-body text-sm text-muted-foreground mt-6">
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-foreground underline underline-offset-4">Create one</Link>
+          </p>
+        </div>
+      </section>
       <Footer />
     </div>
   );
