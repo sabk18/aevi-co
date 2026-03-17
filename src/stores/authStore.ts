@@ -7,6 +7,7 @@ interface AuthStore {
   customer: ShopifyCustomer | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  setAuth: (accessToken: string, customer: ShopifyCustomer | null) => void;
   logout: () => void;
   refreshCustomer: () => Promise<void>;
 }
@@ -35,6 +36,8 @@ export const useAuthStore = create<AuthStore>()(
           set({ isLoading: false });
         }
       },
+
+      setAuth: (accessToken, customer) => set({ accessToken, customer }),
 
       logout: () => set({ accessToken: null, customer: null }),
 

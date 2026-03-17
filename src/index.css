@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,49 +6,44 @@
 
 @layer base {
   :root {
-    --background: 36 33% 97%;
-    --foreground: 220 15% 13%;
+    /* Éclat warm palette */
+    --background: 30 33% 97%;       /* #faf7f4 */
+    --foreground: 0 0% 11%;          /* #1c1c1c */
 
-    --card: 36 25% 95%;
-    --card-foreground: 220 15% 13%;
+    --card: 33 20% 91%;              /* #ede8e0 */
+    --card-foreground: 0 0% 11%;
 
-    --popover: 36 33% 97%;
-    --popover-foreground: 220 15% 13%;
+    --popover: 30 33% 97%;
+    --popover-foreground: 0 0% 11%;
 
-    --primary: 38 45% 60%;
-    --primary-foreground: 36 33% 97%;
+    --primary: 0 0% 11%;              /* #1c1c1c - buttons/text */
+    --primary-foreground: 30 33% 97%;
 
-    --secondary: 220 10% 75%;
-    --secondary-foreground: 220 15% 13%;
+    --secondary: 33 20% 91%;          /* #ede8e0 */
+    --secondary-foreground: 0 0% 11%;
 
-    --muted: 36 15% 92%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 33 20% 91%;
+    --muted-foreground: 30 12% 56%;   /* #b09a7e */
 
-    --accent: 220 15% 13%;
-    --accent-foreground: 36 33% 97%;
+    --accent: 25 38% 59%;             /* #c4956a gold accent */
+    --accent-foreground: 30 33% 97%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 36 20% 88%;
-    --input: 36 20% 88%;
-    --ring: 38 45% 60%;
+    --border: 30 16% 88%;             /* #e8e0d8 */
+    --input: 30 16% 88%;
+    --ring: 25 38% 59%;
 
-    --radius: 0.25rem;
+    --radius: 2px;
 
-    --gold: 38 72% 56%;
-    --gold-light: 40 60% 75%;
-    --gold-dark: 36 55% 40%;
-    --silver: 220 15% 72%;
-    --silver-light: 220 10% 85%;
-    --silver-dark: 220 12% 50%;
-    --cream: 36 33% 97%;
-    --charcoal: 220 15% 13%;
-    --warm-gray: 30 8% 60%;
+    --gold-accent: 25 38% 59%;        /* #c4956a */
+    --warm-muted: 30 12% 56%;         /* #b09a7e */
+    --cream: 30 33% 97%;
+    --charcoal: 0 0% 11%;
 
     --font-display: 'Playfair Display', serif;
-    --font-body: 'Montserrat', sans-serif;
-    --font-accent: 'Cormorant Garamond', serif;
+    --font-body: 'Jost', sans-serif;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -69,6 +64,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -83,31 +79,16 @@
   .font-body {
     font-family: var(--font-body);
   }
-  .font-accent {
-    font-family: var(--font-accent);
+  .text-gold-accent {
+    color: hsl(var(--gold-accent));
   }
-  .text-gold {
-    color: hsl(var(--gold));
+  .bg-gold-accent {
+    background-color: hsl(var(--gold-accent));
   }
-  .text-silver {
-    color: hsl(var(--silver));
+  .text-warm-muted {
+    color: hsl(var(--warm-muted));
   }
-  .bg-gold {
-    background-color: hsl(var(--gold));
-  }
-  .bg-silver {
-    background-color: hsl(var(--silver));
-  }
-  .text-warm-gray {
-    color: hsl(var(--warm-gray));
-  }
-  .border-gold {
-    border-color: hsl(var(--gold));
-  }
-  .luxury-shadow {
-    box-shadow: 0 20px 60px -15px hsl(var(--gold) / 0.15);
-  }
-  .silver-shadow {
-    box-shadow: 0 20px 60px -15px hsl(var(--silver) / 0.25);
+  .eclat-border {
+    border-width: 0.5px;
   }
 }
