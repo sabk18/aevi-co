@@ -8,7 +8,7 @@ import ShopifyProductCard from "@/components/ShopifyProductCard";
 import { fetchProducts, ShopifyProduct } from "@/lib/shopify";
 
 const categories = ["All", "Necklaces", "Bracelets", "Rings", "Earrings"];
-const materials = ["Gold", "Silver", "Pearls", "Gemstone", "Under $20"];
+const materials = ["Gold", "Silver"];
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
