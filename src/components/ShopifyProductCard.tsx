@@ -7,20 +7,17 @@ import { toast } from "sonner";
 
 interface ShopifyProductCardProps {
   product: ShopifyProduct;
+  featured?: boolean;
 }
 
-const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
+const ShopifyProductCard = ({ product, featured }: ShopifyProductCardProps) => {
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
   const { node } = product;
   const image = node.images.edges[0]?.node;
   const variant = node.variants.edges[0]?.node;
   const price = node.priceRange.minVariantPrice;
-
-  // Derive category from product type or tags
   const productType = (node as any).productType || "";
-
-  // Derive material badge from tags or title
   const title = node.title.toLowerCase();
   const materialBadge = title.includes("gold") ? "18K Gold" : title.includes("silver") ? "925 Silver" : null;
 
@@ -40,60 +37,54 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
   };
 
   return (
-    <Link to={`/product/${node.handle}`}>
+    <Link to={`/product/${node.handle}`} className={featured ? "col-span-2" : ""}>
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="group cursor-pointer"
+        className="group cursor-pointer bg-card rounded-lg overflow-hidden"
       >
-        <div className="relative overflow-hidden bg-card mb-3">
+        <div className="relative overflow-hidden">
           {image ? (
             <img
               src={image.url}
               alt={image.altText || node.title}
-              className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              className={`w-full ${featured ? "aspect-[2/1]" : "aspect-square"} object-cover transition-transform duration-500 group-hover:scale-[1.04]`}
               loading="lazy"
             />
           ) : (
-            <div className="w-full aspect-square bg-card flex items-center justify-center">
+            <div className={`w-full ${featured ? "aspect-[2/1]" : "aspect-square"} bg-aevi-peach flex items-center justify-center`}>
               <span className="text-muted-foreground font-body text-sm">No Image</span>
             </div>
           )}
-          {/* Material badge */}
-          {materialBadge && (
-            <span className="absolute top-3 left-3 bg-background/90 backdrop-blur-sm text-foreground font-body text-[10px] tracking-[0.1em] uppercase px-2 py-1 rounded-sm">
-              {materialBadge}
-            </span>
-          )}
-          {/* Quick add overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-400">
-            <button
-              onClick={handleAddToCart}
-              disabled={isLoading || !variant?.availableForSale}
-              className="w-full bg-foreground text-primary-foreground font-body text-xs tracking-[0.1em] uppercase py-2.5 hover:bg-foreground/90 transition-colors disabled:opacity-50 rounded-sm"
-            >
-              {isLoading ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin mx-auto" />
-              ) : !variant?.availableForSale ? (
-                "Sold Out"
-              ) : (
-                "Quick Add"
-              )}
-            </button>
+          {/* Hover overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+            {productType && (
+              <p className="font-body text-[9px] tracking-[0.15em] uppercase text-primary-foreground/80 mb-1">{productType}</p>
+            )}
+            <h3 className="font-display italic text-primary-foreground text-base leading-snug">{node.title}</h3>
+            <p className="font-body text-aevi-gold text-sm mt-0.5">
+              {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
+            </p>
           </div>
         </div>
-        {/* Category label */}
-        {productType && (
-          <p className="font-body text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-1">
-            {productType}
-          </p>
-        )}
-        <h3 className="font-display text-base text-foreground leading-snug">{node.title}</h3>
-        <p className="font-body text-sm text-gold-accent mt-0.5">
-          {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
-        </p>
+        <div className="p-3">
+          {productType && (
+            <p className="font-body text-[9px] tracking-[0.15em] uppercase text-aevi-label-soft mb-1">{productType}</p>
+          )}
+          <h3 className="font-display italic text-sm text-foreground leading-snug">{node.title}</h3>
+          <div className="flex items-center gap-2 mt-1">
+            <p className="font-body text-sm text-primary font-medium">
+              {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
+            </p>
+            {materialBadge && (
+              <span className="font-body text-[9px] tracking-[0.08em] px-2 py-0.5 bg-aevi-peach text-aevi-orange-deep rounded-full">
+                {materialBadge}
+              </span>
+            )}
+          </div>
+        </div>
       </motion.div>
     </Link>
   );
