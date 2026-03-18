@@ -6,41 +6,52 @@
 
 @layer base {
   :root {
-    /* Éclat warm palette */
-    --background: 30 33% 97%;       /* #faf7f4 */
-    --foreground: 0 0% 11%;          /* #1c1c1c */
+    /* Aevi Lifestyle palette */
+    --background: 34 50% 98%;         /* #fdfaf7 */
+    --foreground: 30 33% 6%;          /* #1a1208 */
 
-    --card: 33 20% 91%;              /* #ede8e0 */
-    --card-foreground: 0 0% 11%;
+    --card: 0 0% 100%;                /* #fff */
+    --card-foreground: 30 33% 6%;
 
-    --popover: 30 33% 97%;
-    --popover-foreground: 0 0% 11%;
+    --popover: 34 50% 98%;
+    --popover-foreground: 30 33% 6%;
 
-    --primary: 0 0% 11%;              /* #1c1c1c - buttons/text */
-    --primary-foreground: 30 33% 97%;
+    --primary: 24 68% 50%;            /* #d4722a */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 33 20% 91%;          /* #ede8e0 */
-    --secondary-foreground: 0 0% 11%;
+    --secondary: 30 60% 96%;          /* #fff7f0 */
+    --secondary-foreground: 30 33% 6%;
 
-    --muted: 33 20% 91%;
-    --muted-foreground: 30 12% 56%;   /* #b09a7e */
+    --muted: 30 60% 96%;
+    --muted-foreground: 30 30% 53%;   /* #a08868 */
 
-    --accent: 25 38% 59%;             /* #c4956a gold accent */
-    --accent-foreground: 30 33% 97%;
+    --accent: 38 80% 74%;             /* #f0c888 gold */
+    --accent-foreground: 30 33% 6%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 30 16% 88%;             /* #e8e0d8 */
-    --input: 30 16% 88%;
-    --ring: 25 38% 59%;
+    --border: 34 42% 92%;             /* #f0e8dc */
+    --input: 34 42% 92%;
+    --ring: 24 68% 50%;
 
-    --radius: 2px;
+    --radius: 6px;
 
-    --gold-accent: 25 38% 59%;        /* #c4956a */
-    --warm-muted: 30 12% 56%;         /* #b09a7e */
-    --cream: 30 33% 97%;
-    --charcoal: 0 0% 11%;
+    /* Aevi custom tokens */
+    --aevi-orange: 24 68% 50%;        /* #d4722a */
+    --aevi-orange-deep: 24 78% 41%;   /* #b85a18 */
+    --aevi-gold: 38 80% 74%;          /* #f0c888 */
+    --aevi-espresso: 30 33% 6%;       /* #1a1208 */
+    --aevi-peach: 30 100% 95%;        /* #fde8d4 */
+    --aevi-peach-soft: 30 85% 97%;    /* #fff7f0 */
+    --aevi-border-warm: 34 48% 91%;   /* #f0e4d0 */
+    --aevi-label: 25 48% 53%;         /* #c4824a */
+    --aevi-label-soft: 30 30% 63%;    /* #c4a07a */
+    --aevi-footer-muted: 30 20% 24%;  /* #4a3018 */
+    --aevi-footer-link: 30 20% 24%;   /* #5a4028 */
+    --aevi-footer-divider: 30 25% 10%; /* #2a1e08 */
+    --aevi-footer-copy: 30 20% 18%;   /* #3a2810 */
+    --aevi-nav-link: 30 20% 60%;      /* #b89878 */
 
     --font-display: 'Playfair Display', serif;
     --font-body: 'Jost', sans-serif;
@@ -72,6 +83,45 @@
   }
 }
 
+/* Ticker animation */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Sparkle twinkle */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Heading underline reveal */
+@keyframes underline-reveal {
+  0% { transform: scaleX(0); transform-origin: left; }
+  100% { transform: scaleX(1); transform-origin: left; }
+}
+
+/* Custom cursor */
+@media (pointer: fine) {
+  html {
+    cursor: none;
+  }
+  a, button, [role="button"], input, textarea, select {
+    cursor: none;
+  }
+}
+
+/* Noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
 @layer utilities {
   .font-display {
     font-family: var(--font-display);
@@ -79,16 +129,19 @@
   .font-body {
     font-family: var(--font-body);
   }
-  .text-gold-accent {
-    color: hsl(var(--gold-accent));
-  }
-  .bg-gold-accent {
-    background-color: hsl(var(--gold-accent));
-  }
-  .text-warm-muted {
-    color: hsl(var(--warm-muted));
-  }
-  .eclat-border {
+  .aevi-border {
     border-width: 0.5px;
+  }
+  .ticker-animate {
+    animation: ticker-scroll 30s linear infinite;
+  }
+  .sparkle {
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  .sparkle-delay-1 {
+    animation: twinkle 3s ease-in-out 1s infinite;
+  }
+  .sparkle-delay-2 {
+    animation: twinkle 3s ease-in-out 2s infinite;
   }
 }
