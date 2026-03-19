@@ -36,8 +36,8 @@ const Shop = () => {
     const price = parseFloat(p.node.priceRange.minVariantPrice.amount);
 
     if (activeCategory !== "All") {
-      const cat = activeCategory.toLowerCase().replace(/s$/, "");
-      if (!type.includes(cat) && !title.includes(cat)) return false;
+      const expected = categoryToType[activeCategory];
+      if (type.trim() !== expected) return false;
     }
 
     if (activeMaterial) {
