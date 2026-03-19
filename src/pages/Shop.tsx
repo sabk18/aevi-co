@@ -31,7 +31,7 @@ const Shop = () => {
   }, []);
 
   const filtered = products.filter((p) => {
-    const type = ((p.node as any).productType || "").toLowerCase();
+    const type = (p.node.productType || "").toLowerCase().trim();
     const title = p.node.title.toLowerCase();
     const price = parseFloat(p.node.priceRange.minVariantPrice.amount);
 

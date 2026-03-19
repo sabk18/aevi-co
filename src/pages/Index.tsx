@@ -39,7 +39,7 @@ const Index = () => {
   const filteredProducts = activeCategory === "All"
     ? products
     : products.filter((p) => {
-        const type = ((p.node as any).productType || "").toLowerCase().trim();
+        const type = (p.node.productType || "").toLowerCase().trim();
         return type === categoryToType[activeCategory];
       });
 
