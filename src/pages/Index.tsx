@@ -23,10 +23,15 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
-    fetchProducts(12).then((p) => {
-      setProducts(p);
-      setLoading(false);
-    });
+    const load = () => {
+      fetchProducts(12).then((p) => {
+        setProducts(p);
+        setLoading(false);
+      });
+    };
+    load();
+    const interval = setInterval(load, 5 * 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const categoryToType: Record<string, string> = {

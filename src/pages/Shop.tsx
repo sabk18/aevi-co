@@ -24,10 +24,15 @@ const Shop = () => {
   const [activeMaterial, setActiveMaterial] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchProducts(50).then((p) => {
-      setProducts(p);
-      setLoading(false);
-    });
+    const load = () => {
+      fetchProducts(50).then((p) => {
+        setProducts(p);
+        setLoading(false);
+      });
+    };
+    load();
+    const interval = setInterval(load, 5 * 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const filtered = products.filter((p) => {
