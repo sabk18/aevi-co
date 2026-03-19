@@ -14,6 +14,8 @@ import ProductDetail from "./pages/ProductDetail";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Account from "./pages/Account";
+import Shipping from "./pages/Shipping";
+import Returns from "./pages/Returns";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
