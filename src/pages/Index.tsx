@@ -29,13 +29,18 @@ const Index = () => {
     });
   }, []);
 
+  const categoryToType: Record<string, string> = {
+    Necklaces: "necklace",
+    Bracelets: "bracelet",
+    Rings: "ring",
+    Earrings: "earrings",
+  };
+
   const filteredProducts = activeCategory === "All"
     ? products
     : products.filter((p) => {
-        const type = ((p.node as any).productType || "").toLowerCase();
-        const title = p.node.title.toLowerCase();
-        const cat = activeCategory.toLowerCase().replace(/s$/, "");
-        return type.includes(cat) || title.includes(cat);
+        const type = ((p.node as any).productType || "").toLowerCase().trim();
+        return type === categoryToType[activeCategory];
       });
 
   return (
