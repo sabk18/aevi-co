@@ -44,8 +44,8 @@ const About = () => {
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="bg-aevi-peach rounded-xl aspect-[4/5] flex items-center justify-center">
-              <span className="text-muted-foreground font-body text-sm">Image placeholder</span>
+            <div className="rounded-xl aspect-[4/5] overflow-hidden">
+              <img src="/src/assets/about-atelier.jpg" alt="Aevi Lifestyle jewelry" className="w-full h-full object-cover" />
             </div>
             <div>
               <p className="font-body text-[11px] tracking-[0.2em] uppercase text-aevi-label mb-3">Our story</p>

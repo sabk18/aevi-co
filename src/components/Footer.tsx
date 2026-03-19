@@ -44,8 +44,8 @@ const Footer = () => {
           {[
             { label: "Instagram", href: "#" },
             { label: "TikTok", href: "#" },
-            { label: "Shipping", href: "#" },
-            { label: "Returns", href: "#" },
+            { label: "Shipping", href: "/shipping" },
+            { label: "Returns", href: "/returns" },
             { label: "Contact", href: "/contact" },
           ].map((link) => (
             link.href.startsWith("/") ? (
