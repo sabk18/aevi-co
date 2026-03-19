@@ -8,6 +8,12 @@ import ShopifyProductCard from "@/components/ShopifyProductCard";
 import { fetchProducts, ShopifyProduct } from "@/lib/shopify";
 
 const categories = ["All", "Necklaces", "Bracelets", "Rings", "Earrings"];
+const categoryToType: Record<string, string> = {
+  Necklaces: "necklace",
+  Bracelets: "bracelet",
+  Rings: "ring",
+  Earrings: "earrings",
+};
 const materials = ["Under $20"];
 
 const Shop = () => {
