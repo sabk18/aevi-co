@@ -37,7 +37,7 @@ const Contact = () => {
               <div className="space-y-6">
                 <div>
                   <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-1">Email</p>
-                  <p className="font-accent text-lg text-foreground">hello@noraatelier.com</p>
+                  <a href="mailto:nora.atelier.jewelry@gmail.com" className="font-accent text-lg text-foreground hover:text-primary transition-colors">nora.atelier.jewelry@gmail.com</a>
                 </div>
                 <div>
                   <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-1">Hours</p>
