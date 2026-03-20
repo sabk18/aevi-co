@@ -228,6 +228,12 @@ const ProductDetail = () => {
         </div>
       </section>
       <Footer />
+      <ImageLightbox
+        images={images.map((img) => ({ url: img.node.url, altText: img.node.altText }))}
+        initialIndex={lightboxIndex}
+        open={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
     </div>
   );
 };
