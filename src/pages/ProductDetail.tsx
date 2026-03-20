@@ -94,7 +94,10 @@ const ProductDetail = () => {
             {/* Image gallery */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
               {images.length > 0 && (
-                <div className="bg-aevi-peach overflow-hidden rounded-lg">
+                <div
+                  className="bg-aevi-peach overflow-hidden rounded-lg cursor-zoom-in"
+                  onClick={() => { setLightboxIndex(selectedImage); setLightboxOpen(true); }}
+                >
                   <img
                     src={images[selectedImage]?.node.url}
                     alt={images[selectedImage]?.node.altText || product.title}
