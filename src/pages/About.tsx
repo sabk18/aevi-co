@@ -45,7 +45,7 @@ const About = () => {
         <div className="container mx-auto max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="rounded-xl aspect-[4/5] overflow-hidden">
-              <img src="https://cdn.shopify.com/s/files/1/0816/1191/5484/files/DSC03265_40x40@3x.jpg?v=1773719348" alt="Aevi Lifestyle jewelry" className="w-full h-full object-cover" />
+              <img src="https://i.ibb.co/wT9Yrd4/golden-eye-necklace-on-neck.png" alt="Aevi Lifestyle jewelry" className="w-full h-full object-cover" />
             </div>
             <div>
               <p className="font-body text-[11px] tracking-[0.2em] uppercase text-aevi-label mb-3">Our story</p>
