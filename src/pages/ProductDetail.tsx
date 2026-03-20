@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Loader2, Heart, ChevronLeft } from "lucide-react";
+import ImageLightbox from "@/components/ImageLightbox";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopifyProductCard from "@/components/ShopifyProductCard";
