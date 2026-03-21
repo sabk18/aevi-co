@@ -5,6 +5,7 @@ import { Menu, X, Search, ShoppingBag, User } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import CartDrawer from "@/components/CartDrawer";
+import SearchOverlay from "@/components/SearchOverlay";
 
 const ACCOUNT_URL = "https://shopify.com/81611915484/account";
 
