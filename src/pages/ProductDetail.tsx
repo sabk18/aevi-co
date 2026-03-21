@@ -6,6 +6,7 @@ import ImageLightbox from "@/components/ImageLightbox";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopifyProductCard from "@/components/ShopifyProductCard";
+import ProductReviews from "@/components/ProductReviews";
 import { fetchProductByHandle, fetchProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
