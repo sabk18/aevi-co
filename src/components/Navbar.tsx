@@ -5,6 +5,7 @@ import { Menu, X, Search, ShoppingBag, User } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import CartDrawer from "@/components/CartDrawer";
+import SearchOverlay from "@/components/SearchOverlay";
 
 const ACCOUNT_URL = "https://shopify.com/81611915484/account";
 
@@ -94,29 +95,8 @@ const Navbar = () => {
           </div>
         </nav>
 
-        {/* Search bar */}
-        <AnimatePresence>
-          {searchOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden border-t border-border"
-            >
-              <div className="container mx-auto px-6 py-3">
-                <input
-                  autoFocus
-                  type="text"
-                  placeholder="Search jewelry..."
-                  className="w-full bg-transparent font-body text-sm outline-none placeholder:text-muted-foreground"
-                  onKeyDown={(e) => {
-                    if (e.key === "Escape") setSearchOpen(false);
-                  }}
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Search overlay */}
+        <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
         {/* Mobile menu */}
         <AnimatePresence>
