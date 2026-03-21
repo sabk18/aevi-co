@@ -41,30 +41,35 @@ const Footer = () => {
 
         {/* Links */}
         <div className="flex flex-wrap justify-center gap-8 mb-8">
+          <a
+            href="https://instagram.com/aevilifestyle"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-body text-[10px] tracking-[0.15em] uppercase text-aevi-footer-link hover:text-aevi-gold transition-colors"
+          >
+            Instagram
+          </a>
+          <a
+            href="https://tiktok.com/@aevilifestyle"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-body text-[10px] tracking-[0.15em] uppercase text-aevi-footer-link hover:text-aevi-gold transition-colors"
+          >
+            TikTok
+          </a>
           {[
-            { label: "Instagram", href: "#" },
-            { label: "TikTok", href: "#" },
             { label: "Shipping", href: "/shipping" },
             { label: "Returns", href: "/returns" },
+            { label: "About", href: "/about" },
             { label: "Contact", href: "/contact" },
           ].map((link) => (
-            link.href.startsWith("/") ? (
-              <Link
-                key={link.label}
-                to={link.href}
-                className="font-body text-[10px] tracking-[0.15em] uppercase text-aevi-footer-link hover:text-aevi-gold transition-colors"
-              >
-                {link.label}
-              </Link>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                className="font-body text-[10px] tracking-[0.15em] uppercase text-aevi-footer-link hover:text-aevi-gold transition-colors"
-              >
-                {link.label}
-              </a>
-            )
+            <Link
+              key={link.label}
+              to={link.href}
+              className="font-body text-[10px] tracking-[0.15em] uppercase text-aevi-footer-link hover:text-aevi-gold transition-colors"
+            >
+              {link.label}
+            </Link>
           ))}
         </div>
 
