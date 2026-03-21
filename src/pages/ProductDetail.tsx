@@ -215,6 +215,9 @@ const ProductDetail = () => {
             </motion.div>
           </div>
 
+          {/* Reviews */}
+          <ProductReviews handle={handle || ""} />
+
           {/* Related products */}
           {relatedProducts.length > 0 && (
             <div className="mt-20">
