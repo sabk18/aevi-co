@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, Search, ShoppingBag } from "lucide-react";
+import { Menu, X, Search, ShoppingBag, User } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { useAuthStore } from "@/stores/authStore";
 import CartDrawer from "@/components/CartDrawer";
+
+const ACCOUNT_URL = "https://shopify.com/81611915484/account";
 
 const navLinks = [
   { label: "Shop", path: "/shop" },
@@ -17,6 +20,14 @@ const Navbar = () => {
   const location = useLocation();
   const items = useCartStore((s) => s.items);
   const cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const customer = useAuthStore((s) => s.customer);
+  const isLoggedIn = !!accessToken;
+
+  const linkClass = (active: boolean) =>
+    `font-body font-light text-[11px] tracking-[0.15em] uppercase transition-colors duration-200 ${
+      active ? "text-foreground" : "text-aevi-nav-link hover:text-foreground"
+    }`;
 
   return (
     <>
@@ -28,13 +39,31 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-body font-light text-[11px] tracking-[0.15em] uppercase transition-colors duration-200 ${
-                  location.pathname === link.path ? "text-foreground" : "text-aevi-nav-link hover:text-foreground"
-                }`}
+                className={linkClass(location.pathname === link.path)}
               >
                 {link.label}
               </Link>
             ))}
+            {isLoggedIn ? (
+              <a
+                href={ACCOUNT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass(false) + " inline-flex items-center gap-1.5"}
+              >
+                <User className="w-3.5 h-3.5" />
+                {customer?.firstName ? `Hi, ${customer.firstName}` : "My Account"}
+              </a>
+            ) : (
+              <a
+                href={ACCOUNT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass(false)}
+              >
+                Log In
+              </a>
+            )}
           </div>
 
           {/* Middle row: logo */}
@@ -59,7 +88,6 @@ const Navbar = () => {
                 </span>
               )}
             </button>
-            {/* Mobile hamburger */}
             <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -112,6 +140,22 @@ const Navbar = () => {
                     {link.label}
                   </Link>
                 ))}
+                <a
+                  href={ACCOUNT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsOpen(false)}
+                  className="font-body text-sm tracking-[0.08em] text-muted-foreground inline-flex items-center gap-1.5"
+                >
+                  {isLoggedIn ? (
+                    <>
+                      <User className="w-3.5 h-3.5" />
+                      {customer?.firstName ? `Hi, ${customer.firstName}` : "My Account"}
+                    </>
+                  ) : (
+                    "Log In"
+                  )}
+                </a>
               </div>
             </motion.div>
           )}
