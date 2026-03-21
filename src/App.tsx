@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 import CustomCursor from "@/components/CustomCursor";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -22,6 +23,7 @@ const queryClient = new QueryClient();
 
 const AppContent = () => {
   useCartSync();
+  useScrollToTop();
   return (
     <BrowserRouter>
       <CustomCursor />
