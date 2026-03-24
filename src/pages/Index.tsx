@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import HeroProductCarousel from "@/components/HeroProductCarousel";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
