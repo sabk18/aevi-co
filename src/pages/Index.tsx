@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import HeroProductCarousel from "@/components/HeroProductCarousel";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
@@ -77,6 +78,18 @@ const Index = () => {
           >
             Est. 2026 · Born from travel
           </motion.p>
+
+          {/* Rotating product images */}
+          {!loading && products.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <HeroProductCarousel products={products} />
+            </motion.div>
+          )}
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
