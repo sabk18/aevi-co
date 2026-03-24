@@ -25,7 +25,7 @@ const AppContent = () => {
   useCartSync();
   useScrollToTop();
   return (
-    <BrowserRouter>
+    <>
       <CustomCursor />
       <Routes>
         <Route path="/" element={<Index />} />
@@ -41,7 +41,7 @@ const AppContent = () => {
         <Route path="/returns" element={<Returns />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 
@@ -50,7 +50,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <AppContent />
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
