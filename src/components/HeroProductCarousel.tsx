@@ -37,7 +37,7 @@ const HeroProductCarousel = ({ products }: Props) => {
   ];
 
   return (
-    <div className="relative w-full max-w-md mx-auto h-[220px] md:h-[280px] my-6">
+    <div className="relative w-full max-w-md mx-auto h-[220px] md:h-[280px] my-6 z-0">
       {positions.map((pos) => {
         const idx = getIndex(pos.offset);
         const product = items[idx];
