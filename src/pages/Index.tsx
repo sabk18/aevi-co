@@ -69,7 +69,7 @@ const Index = () => {
         <span className="absolute top-[30%] right-[20%] text-aevi-gold text-lg sparkle-delay-1">✦</span>
         <span className="absolute bottom-[25%] left-[60%] text-aevi-gold text-sm sparkle-delay-2">✦</span>
 
-        <div className="relative z-10 text-center max-w-2xl">
+        <div className="relative z-10 text-center max-w-2xl w-full">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -78,17 +78,6 @@ const Index = () => {
           >
             Est. 2026 · Born from travel
           </motion.p>
-
-          {/* Rotating product images */}
-          {!loading && products.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <HeroProductCarousel products={products} />
-            </motion.div>
-          )}
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -100,6 +89,7 @@ const Index = () => {
             <span className="text-primary">wanderlust</span>.{" "}
             Made for you.
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -108,11 +98,12 @@ const Index = () => {
           >
             Jewelry found across cultures and cities — for the girl who moves through the world with intention.
           </motion.p>
+
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex gap-3 justify-center"
+            className="flex gap-3 justify-center mb-12"
           >
             <Link
               to="/shop"
@@ -127,6 +118,18 @@ const Index = () => {
               Our Story
             </Link>
           </motion.div>
+
+          {/* Rotating product images — BELOW buttons */}
+          {!loading && products.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="relative z-0"
+            >
+              <HeroProductCarousel products={products} />
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -222,3 +225,30 @@ const Index = () => {
 };
 
 export default Index;
+```
+
+---
+
+## What Changed
+```
+BEFORE:
+eyebrow text
+↓
+carousel (overlapping everything) ← problem
+↓
+heading
+↓
+subtext
+↓
+buttons
+
+AFTER:
+eyebrow text
+↓
+heading          ← clean, nothing overlapping
+↓
+subtext
+↓
+buttons
+↓
+carousel         ← now sits below everything ✅
