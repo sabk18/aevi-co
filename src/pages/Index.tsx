@@ -231,8 +231,6 @@ export default Index;
 
 ## What Changed
 ```
-BEFORE:
-eyebrow text
 ↓
 carousel (overlapping everything) ← problem
 ↓
