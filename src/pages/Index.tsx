@@ -225,28 +225,3 @@ const Index = () => {
 };
 
 export default Index;
-```
-
----
-
-## What Changed
-```
-↓
-carousel (overlapping everything) ← problem
-↓
-heading
-↓
-subtext
-↓
-buttons
-
-AFTER:
-eyebrow text
-↓
-heading          ← clean, nothing overlapping
-↓
-subtext
-↓
-buttons
-↓
-carousel         ← now sits below everything ✅
