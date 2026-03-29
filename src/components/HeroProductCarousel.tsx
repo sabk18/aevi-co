@@ -32,7 +32,6 @@ const HeroProductCarousel = ({ products }: Props) => {
 
   return (
     <div className="w-full flex flex-col items-center gap-4 mt-8 mb-4">
-      {/* Single image — no absolute positioning */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -44,7 +43,7 @@ const HeroProductCarousel = ({ products }: Props) => {
         >
           <Link
             to={`/product/${handle}`}
-            className="block w-full h-full rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+            className="relative block w-full h-full rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group"
           >
             <img
               src={img?.url}
@@ -61,7 +60,6 @@ const HeroProductCarousel = ({ products }: Props) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Dots */}
       <div className="flex gap-1.5">
         {items.slice(0, 8).map((_, i) => (
           <button
@@ -80,18 +78,3 @@ const HeroProductCarousel = ({ products }: Props) => {
 };
 
 export default HeroProductCarousel;
-```
-
----
-
-## What Changed
-
-The old version used:
-```
-position: absolute + left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-```
-Which floated the images on top of everything ❌
-
-The new version uses:
-```
-normal document flow — width/height set, no absolute positioning
