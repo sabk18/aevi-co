@@ -184,7 +184,7 @@ const Index = () => {
               No products found. Add products to your Shopify store to display them here.
             </p>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {filteredProducts.slice(0, 8).map((p, i) => (
                 <ShopifyProductCard key={p.node.id} product={p} featured={(i + 1) % 4 === 0} />
               ))}
