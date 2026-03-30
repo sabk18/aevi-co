@@ -145,3 +145,44 @@
     animation: twinkle 3s ease-in-out 2s infinite;
   }
 }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  /* Hero section shorter on mobile */
+  .min-h-\[90vh\] {
+    min-height: 70vh !important;
+  }
+
+  /* Reduce hero text size */
+  .text-\[38px\] {
+    font-size: 28px !important;
+  }
+
+  /* Product grid always 2 columns */
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Reduce hero padding */
+  .min-h-screen {
+    padding-top: 60px;
+  }
+
+  /* Category tiles */
+  .grid-cols-2.md\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Ticker readable on mobile */
+  .ticker-animate {
+    animation-duration: 20s;
+  }
+
+  /* Buttons stack on very small screens */
+  @media (max-width: 380px) {
+    .flex.gap-3.justify-center {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
