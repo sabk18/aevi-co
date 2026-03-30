@@ -40,8 +40,7 @@ const ShopifyProductCard = ({ product, featured }: ShopifyProductCardProps) => {
     <Link to={`/product/${node.handle}`} className={featured ? "col-span-2" : ""}>
       <motion.div
         initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="group cursor-pointer bg-card rounded-lg overflow-hidden"
       >
