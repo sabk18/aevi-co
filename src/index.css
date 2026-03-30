@@ -101,7 +101,7 @@
   100% { transform: scaleX(1); transform-origin: left; }
 }
 
-/* Custom cursor */
+/* Custom cursor
 @media (pointer: fine) {
   html {
     cursor: none;
@@ -109,7 +109,7 @@
   a, button, [role="button"], input, textarea, select {
     cursor: none;
   }
-}
+} */
 
 /* Noise texture overlay */
 .noise-overlay::before {
