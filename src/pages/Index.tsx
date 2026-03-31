@@ -50,7 +50,7 @@ const Index = () => {
       });
 
   return (
-    <div className="min-h-screen bg-background animate-fade-in">
+    <div className="aevi-full-vh bg-background animate-fade-in">
       <Navbar />
 
       {/* Hero */}

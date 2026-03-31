@@ -18,7 +18,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="aevi-full-vh bg-background">
       <Navbar />
 
       <section className="pt-32 pb-24 px-6">

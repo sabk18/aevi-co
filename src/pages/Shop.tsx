@@ -58,7 +58,7 @@ const Shop = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background animate-fade-in">
+    <div className="aevi-full-vh bg-background animate-fade-in">
       <Navbar />
 
       <section className="pt-8 pb-20 px-6">

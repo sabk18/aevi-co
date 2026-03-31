@@ -163,9 +163,17 @@
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  /* Reduce hero padding */
+  /* Fix mobile viewport sizing with dynamic browser chrome (iOS/Mobile in-app browser). */
+  html, body, #root {
+    min-height: 100svh;
+    min-height: 100dvh;
+    height: 100%;
+  }
+
+  .aevi-full-vh,
   .min-h-screen {
-    padding-top: 60px;
+    min-height: 100svh !important;
+    min-height: 100dvh !important;
   }
 
   /* Category tiles */

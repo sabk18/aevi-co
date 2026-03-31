@@ -37,7 +37,7 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="aevi-full-vh bg-background">
         <Navbar />
         <div className="pt-32 flex justify-center"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
       </div>
@@ -46,7 +46,7 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="aevi-full-vh bg-background">
         <Navbar />
         <div className="pt-32 text-center">
           <h1 className="font-display italic text-3xl text-foreground">Product not found</h1>
@@ -82,7 +82,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background animate-fade-in">
+    <div className="aevi-full-vh bg-background animate-fade-in">
       <Navbar />
       <section className="pt-6 pb-20 px-6">
         <div className="container mx-auto max-w-6xl">

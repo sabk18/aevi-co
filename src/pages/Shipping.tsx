@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 const Shipping = () => {
   return (
-    <div className="min-h-screen bg-background animate-fade-in">
+    <div className="aevi-full-vh bg-background animate-fade-in">
       <Navbar />
 
       <section className="pt-32 pb-24 px-6">

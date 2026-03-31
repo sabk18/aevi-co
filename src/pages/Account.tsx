@@ -24,7 +24,7 @@ const Account = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="aevi-full-vh bg-background">
         <Navbar />
         <div className="pt-32 flex justify-center"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
       </div>
@@ -34,7 +34,7 @@ const Account = () => {
   const orders = customer?.orders?.edges || [];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="aevi-full-vh bg-background">
       <Navbar />
       <section className="pt-12 pb-24 px-6">
         <div className="container mx-auto max-w-3xl">

@@ -43,7 +43,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="aevi-full-vh bg-background">
       <Navbar />
       <section className="pt-20 pb-24 px-6">
         <div className="container mx-auto max-w-sm">

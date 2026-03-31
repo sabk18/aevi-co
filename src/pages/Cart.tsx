@@ -25,7 +25,7 @@ const Cart = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="aevi-full-vh bg-background">
         <Navbar />
         <section className="pt-20 pb-24 px-6">
           <div className="container mx-auto max-w-2xl text-center">
@@ -45,7 +45,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="aevi-full-vh bg-background">
       <Navbar />
       <section className="pt-8 pb-24 px-6">
         <div className="container mx-auto max-w-3xl">
